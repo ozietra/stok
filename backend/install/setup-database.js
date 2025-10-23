@@ -64,13 +64,16 @@ async function setupDatabase() {
     console.log('════════════════════════════════════════════════════════\n');
     console.log('🚀 Sunucuyu başlatmak için: npm start\n');
 
+    // ✅ Başarılı kurulum - server.js'e geri dön
+    return true;
+
   } catch (error) {
     console.error('\n❌ KURULUM HATASI:', error.message);
     console.error('\nDetay:', error);
-    process.exit(1);
-  } finally {
-    await sequelize.close();
+    // ✅ process.exit(1) yerine throw kullan - server.js handle edecek
+    throw error;
   }
+  // ✅ finally bloğunu TAMAMEN SİLDİK - sequelize.close() yok artık
 }
 
 async function createDefaultData() {
@@ -128,4 +131,3 @@ if (require.main === module) {
 }
 
 module.exports = { setupDatabase };
-
